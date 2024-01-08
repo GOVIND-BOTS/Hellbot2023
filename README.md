@@ -7,7 +7,7 @@
 </p>
 
 <h6 align="center">
-  <b>⚡ ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt ⚡</b>
+  <b>⚡ govinds userbot ⚡</b>
 </h6>
 
 <h3 align="center">
