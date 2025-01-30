@@ -1,5 +1,5 @@
 {
-  "name": "🕊️⃝‌Govind bot ❤️ᥫ᭡፝֟፝֟",
+  "name": "Govind Bot",
   "description": "One of the best Userbot for Telegram. Known for its Smoothness, Design, Support.",
   "logo": "https://te.legra.ph/file/b17999280df53b41c2303.jpg",
   "keywords": [
@@ -7,68 +7,69 @@
     "userbot",
     "plugin",
     "telethon",
-    "pbxbot",
     "modular",
     "productivity"
   ],
   "repository": "https://github.com/GOVIND-BOTS/Hellbot2023",
   "env": {
     "ENV": {
-      "description": "Setting this to ANYTHING will enable heroku.",
+      "description": "Set this to ANYTHING to enable Heroku.",
       "value": "ANYTHING"
     },
-    
     "ABUSE": {
-      "description": "Leave it blank if you dont want Profanity in PBxBot. Else Fill ON.",
-      "value": "ON",
+      "description": "Set to 'ON' to allow profanity, leave blank to disable.",
+      "value": "",
       "required": false
     },
     "HANDLER": {
-      "description": "Your command handler. Default is ' . ' (dot).",
+      "description": "Command prefix (default is '.').",
       "value": "."
     },
     "APP_ID": {
-      "description": "Get this value from my.telegram.org",
-      "value": ""
+      "description": "Get from https://my.telegram.org.",
+      "value": "",
+      "required": true
     },
     "API_HASH": {
-      "description": "Get this value from my.telegram.org",
-      "value": ""
+      "description": "Get from https://my.telegram.org.",
+      "value": "",
+      "required": true
     },
     "HELLBOT_SESSION": {
-      "description": "Get this value by using repl or termux. Refer to Repo for more info.",
-      "value": ""
+      "description": "Get this session from repl or termux.",
+      "value": "",
+      "required": true
     },
     "HEROKU_API_KEY": {
-      "description": "Go to https://dashboard.heroku.com/account, scroll down and press Reveal API. Required for updater to work.",
-      "value": ""
+      "description": "Get from https://dashboard.heroku.com/account.",
+      "value": "",
+      "required": true
     },
     "HEROKU_APP_NAME": {
-      "description": "The Value of App Name you filled in right on top. Required for updater to work.",
-      "value": ""
+      "description": "Your Heroku app name.",
+      "value": "",
+      "required": true
     },
     "BOT_TOKEN": {
-      "description": "Make a bot from @BotFather and paste the bot token here.",
-      "value": ""
+      "description": "Create a bot using @BotFather and paste the bot token here.",
+      "value": "",
+      "required": true
     }
   },
-  "addons": [{
-    "plan": "heroku-postgresql",
-    "options": {
-      "version": "14"
+  "addons": [
+    {
+      "plan": "heroku-postgresql",
+      "options": {
+        "version": "12"
+      }
     }
-  }],
-  "buildpacks": [{
-    "url": "https://github.com/badmunda98/heroku-buildpack-ffmpeg-latest"
-  },{
-    "url":"https://github.com/badmunda98/heroku-buildpack-google-chrome"
-  },{
-    "url":"https://github.com/badmunda98/heroku-buildpack-chromedriver"
-  },{
-    "url": "https://github.com/badmunda98/heroku-buildpack-apt"
-  },{
-    "url": "https://github.com/badmunda98/heroku-buildpack-jq"
-  },{
-    "url": "heroku/python"
-  }]
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    },
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-apt.git"
+    }
+  ]
 }
