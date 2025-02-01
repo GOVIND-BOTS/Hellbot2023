@@ -43,6 +43,8 @@ telethon==1.24.0
 tgcrypto
 validators
 vcam
+lxml==4.6.3
+
 
 git+https://github.com/HellBoy-OP/py-googletrans
 git+https://github.com/HellBoy-OP/Wikipedia
