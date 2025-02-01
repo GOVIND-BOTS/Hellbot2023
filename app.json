@@ -71,9 +71,6 @@
     {
       "url": "https://github.com/heroku/heroku-buildpack-apt.git"
     }
-  ]
-}
-
-{
+  ],
   "stack": "heroku-22"
 }
