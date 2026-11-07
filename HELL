@@ -1,36 +1,54 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
+set -Eeuo pipefail
 
-_hell_zip () {
-    if [[ $GIT_REPO ]]
-    then
-        echo "https://github.com/${GIT_REPO}/archive/master.zip"
-    else
-        echo "https://github.com/GOVIND-BOTS/Plugins-T/archive/master.zip"
+export BOT_LIBRARY="${BOT_LIBRARY:-telethon}"
+
+if [[ "${BOT_LIBRARY,,}" != "telethon" ]]; then
+    echo "ERROR: BOT_LIBRARY must be set to telethon."
+    exit 1
+fi
+
+for var in APP_ID API_HASH BOT_TOKEN HELLBOT_SESSION DATABASE_URL; do
+    if [[ -z "${!var:-}" ]]; then
+        echo "ERROR: Missing Railway variable: $var"
+        exit 1
     fi
-}
+done
 
-_library () {
-    if [[ $BOT_LIBRARY == "pyrogram" ]]
-    then 
-        python3 -m PyrogramHell
-    else
-        python3 -m TelethonHell
-    fi
-}
+GIT_REPO="${GIT_REPO:-GOVIND-BOTS/Plugins-T}"
+ZIP_FILE="/tmp/hellbot-plugins.zip"
+WORK_DIR="/app/hellbot_plugins"
 
-_starter () {
-    local hellpath
-    hellpath="Plugins.zip"
-    echo "••• DOWNLOADING HELLBOT •••"
-    wget -q $(_hell_zip) -O "$hellpath"
-    HELLPATH=$(zipinfo -1 "$hellpath" | grep -v "/.");
-    unzip -qq "$hellpath"
-    rm -rf "$hellpath"
-    cd $HELLPATH
-    python3 ../updater.py ../requirements.txt requirements.txt
-    echo "••• STARTING HELLBOT •••"
-    _library
-}
+echo "••• DOWNLOADING HELLBOT PLUGINS •••"
 
-_starter
+rm -rf "$WORK_DIR" "$ZIP_FILE"
+mkdir -p "$WORK_DIR"
+
+wget -q "https://github.com/${GIT_REPO}/archive/refs/heads/master.zip" \
+    -O "$ZIP_FILE"
+
+unzip -q "$ZIP_FILE" -d "$WORK_DIR"
+rm -f "$ZIP_FILE"
+
+PLUGIN_DIR="$(find "$WORK_DIR" -mindepth 1 -maxdepth 1 -type d | head -n 1)"
+
+if [[ -z "$PLUGIN_DIR" || ! -d "$PLUGIN_DIR/TelethonHell" ]]; then
+    echo "ERROR: TelethonHell folder not found in Plugins-T."
+    exit 1
+fi
+
+if [[ ! -f "$PLUGIN_DIR/requirements.txt" ]]; then
+    echo "ERROR: Plugins-T requirements.txt not found."
+    exit 1
+fi
+
+cd "$PLUGIN_DIR"
+
+echo "••• INSTALLING PLUGIN REQUIREMENTS •••"
+
+python /app/updater.py /app/requirements.txt requirements.txt
+
+echo "••• STARTING TELETHON HELLBOT •••"
+
+exec python -m TelethonHell
